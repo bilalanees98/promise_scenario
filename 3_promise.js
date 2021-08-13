@@ -2,27 +2,21 @@
 using promise functions only
 */
 
-const promise1 = fetch("todos_bilal.json");
-// const promise2 = fetch('todos_aniss.json')
-const promise2 = Promise.reject("cant find resource");
-const promise3 = fetch("todos_taimoor.json");
+const urlList = [
+  "https://jsonplaceholder.typicode.com/users",
+  "https://jsonplaceholder.typicode.com/posts",
+  "https://jsonplaceholder.typicode.com/albums",
+];
 
-// promise1.then((res)=>{
-//     res.json()
-//     .then((data)=>{
-//         console.log(data)
-//     })
-// })
+const promiseArray = urlList.map((url) => {
+  return fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    });
+});
 
-// Promise.all([promise1, promise2, promise3])
-//   .then((values) => {
-//     console.log(values);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
-
-Promise.allSettled([promise1, promise2, promise3])
+Promise.allSettled(promiseArray)
   .then((values) => {
     // console.log(values);
     values.forEach((value) => {
@@ -35,5 +29,3 @@ Promise.allSettled([promise1, promise2, promise3])
   .catch((error) => {
     console.log(error);
   });
-
-//all settled will execute all until each is settled (fulfilled or rejected)
